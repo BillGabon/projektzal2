@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.ad_list'|trans }}
+{% endblock %}
+
+{% block body %}
+    {% include 'nav.html.twig' %}
+    <h1>{{ 'title.ad_list'|trans }}</h1>
+    {% if pagination is defined and pagination.items|length %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'ad.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'ad.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'ad.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.name') }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ad in pagination.items %}
+                <tr>
+                    <td>{{ ad.createdAt|date('m/d/Y') }}</td>
+                    <td>{{ ad.updatedAt|date('m/d/Y') }}</td>
+                    <td>{{ ad.title }}</td>
+                    <td>{{ ad.category.name }}</td>
+                    <td>
+                        <a href="{{ url('ad_show', {id: ad.id}) }}" title="{{ 'action.view'|trans }}">
+                            {{ 'action.view'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>
+            {{ 'message.empty_list'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

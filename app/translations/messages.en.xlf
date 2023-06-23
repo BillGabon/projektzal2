@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="action.view">
+        <source>action.view</source>
+        <target>view</target>
+      </trans-unit>
+      <trans-unit id="label.actions">
+        <source>label.actions</source>
+        <target>actions</target>
+      </trans-unit>
+      <trans-unit id="label.id">
+        <source>label.id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="label.title">
+        <source>label.title</source>
+        <target>Title</target>
+      </trans-unit>
+      <trans-unit id="label.content">
+        <source>label.content</source>
+        <target>Content</target>
+      </trans-unit>
+      <trans-unit id="label.tags">
+        <source>label.tags</source>
+        <target>Tags</target>
+      </trans-unit>
+      <trans-unit id="message.empty_list">
+        <source>message.empty_list</source>
+        <target>List is empty.</target>
+      </trans-unit>
+      <trans-unit id="message.record_not_found">
+        <source>message.record_not_found</source>
+        <target>Record not found.</target>
+      </trans-unit>
+      <trans-unit id="title.ad_list">
+        <source>title.ad_list</source>
+        <target>Ads list</target>
+      </trans-unit>
+      <trans-unit id="title.record_view">
+        <source>title.record_view</source>
+        <target>Record view #%id%</target>
+      </trans-unit>
+      <trans-unit id="title.welcome">
+        <source>title.welcome</source>
+        <target>Welcome</target>
+      </trans-unit>
+      <trans-unit id="title.logout">
+        <source>title.logout</source>
+        <target>Logout</target>
+      </trans-unit>
+      <trans-unit id="title.login">
+        <source>title.login</source>
+        <target>Login</target>
+      </trans-unit>
+
+      <trans-unit id="name.ad_details">
+        <source>name.ad_details</source>
+        <target>Ad Details</target>
+      </trans-unit>
+      <trans-unit id="label.category">
+        <source>label.category</source>
+        <target>Category</target>
+      </trans-unit>
+      <trans-unit id="action.back_to_list">
+        <source>action.back_to_list</source>
+        <target>Back to List</target>
+      </trans-unit>
+
+      <trans-unit id="label.created_at">
+        <source>label.created_at</source>
+        <target>Created At</target>
+      </trans-unit>
+
+      <trans-unit id="label.updated_at">
+        <source>label.updated_at</source>
+        <target>Updated At</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

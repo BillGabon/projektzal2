@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block name %}
+    {{ 'name.ad_details'|trans({'%id%': ad.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    {% include 'nav.html.twig' %}
+    <h1>{{ 'name.ad_details'|trans({'%id%': ad.id|default('')}) }}</h1>
+    {% if ad is defined and ad|length %}
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.created_at'|trans }}</dt>
+            <dd>{{ ad.createdAt|format_date('long') }}</dd>
+            <dt>{{ 'label.updated_at'|trans }}</dt>
+            <dd>{{ ad.updatedAt|format_date('long') }}</dd>
+            <dt>{{ 'label.title'|trans }}</dt>
+            <dd>{{  ad.title }}</dd>
+            <dt>{{ 'label.category'|trans }}</dt>
+            <dd>{{  ad.category.name }}</dd>
+        </dl>
+        <p>
+            <a href="{{ url('ad_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    {% else %}
+        <p>
+            {{ 'message.record_not_found'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

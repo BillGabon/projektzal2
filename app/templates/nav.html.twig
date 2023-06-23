@@ -1,0 +1,7 @@
+ <nav>
+        {% if app.user %}
+            <p>{{ 'title.welcome'|trans }}, {{ app.user.username }} | <a href="{{ path('app_logout') }}">{{ 'title.logout'|trans }}</a></p>
+        {% else %}
+            <p><a href="{{ path('app_login') }}">{{ 'title.login'|trans }}</a></p>
+        {% endif %}
+ </nav>

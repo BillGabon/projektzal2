@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.category_list'|trans }}
+{% endblock %}
+
+{% block body %}
+    {% include 'nav.html.twig' %}
+    <h1>{{ 'title.category_list'|trans }}</h1>
+    {% if pagination is defined and pagination.items|length %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ 'label.name'|trans }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in pagination.items %}
+                <tr>
+                    <td>{{ category.name }}</td>
+                    <td>
+                        <a href="{{ path('category_show', {id: category.id}) }}" class="btn btn-primary" title="{{ 'action.view'|trans }}">
+                            {{ 'action.view'|trans }}
+                        </a>
+                        <a href="{{ path('category_edit', {id: category.id}) }}" class="btn btn-primary" title="{{ 'action.edit'|trans }}">
+                            {{ 'action.edit'|trans }}
+                        </a>
+                        <a href="{{ path('category_delete', {id: category.id}) }}" class="btn btn-danger" title="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>
+            {{ 'message.empty_category_list'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}
