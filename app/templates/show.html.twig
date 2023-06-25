@@ -6,26 +6,37 @@
 
 {% block body %}
     {% include 'nav.html.twig' %}
-    <h1>{{ 'name.ad_details'|trans({'%id%': ad.id|default('')}) }}</h1>
-    {% if ad is defined and ad|length %}
-        <dl class="dl-horizontal">
-            <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ ad.createdAt|format_date('long') }}</dd>
-            <dt>{{ 'label.updated_at'|trans }}</dt>
-            <dd>{{ ad.updatedAt|format_date('long') }}</dd>
-            <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  ad.title }}</dd>
-            <dt>{{ 'label.category'|trans }}</dt>
-            <dd>{{  ad.category.name }}</dd>
-        </dl>
-        <p>
-            <a href="{{ url('ad_index') }}" title="{{ 'action.back_to_list'|trans }}">
-                {{ 'action.back_to_list'|trans }}
-            </a>
-        </p>
-    {% else %}
-        <p>
-            {{ 'message.record_not_found'|trans }}
-        </p>
-    {% endif %}
+
+    <div class="container">
+        <h1 class="my-4">{{ 'name.ad_details'|trans({'%id%': ad.id|default('')}) }}</h1>
+
+        {% if ad is defined and ad|length %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">{{ 'label.created_at'|trans }}</dt>
+                        <dd class="col-sm-9">{{ ad.createdAt|format_date('long') }}</dd>
+                        <dt class="col-sm-3">{{ 'label.updated_at'|trans }}</dt>
+                        <dd class="col-sm-9">{{ ad.updatedAt|format_date('long') }}</dd>
+                        <dt class="col-sm-3">{{ 'label.title'|trans }}</dt>
+                        <dd class="col-sm-9">{{ ad.title }}</dd>
+                        <dt class="col-sm-3">{{ 'label.category'|trans }}</dt>
+                        <dd class="col-sm-9">{{ ad.category.name }}</dd>
+                        <dt class="col-sm-3">{{ 'label.content'|trans }}</dt>
+                        <dd class="col-sm-9">{{ ad.content }}</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <p>
+                <a href="{{ url('ad_index') }}" class="btn btn-primary" title="{{ 'action.back_to_list'|trans }}">
+                    {{ 'action.back_to_list'|trans }}
+                </a>
+            </p>
+        {% else %}
+            <div class="alert alert-danger">
+                {{ 'message.record_not_found'|trans }}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

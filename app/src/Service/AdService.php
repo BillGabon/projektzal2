@@ -5,6 +5,7 @@
 
 namespace App\Service;
 
+use App\Entity\Ad;
 use App\Repository\AdRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -27,8 +28,8 @@ class AdService implements AdServiceInterface
     /**
      * Constructor.
      *
-     * @param AdRepository       $adRepository Ad repository
-     * @param PaginatorInterface $paginator    Paginator
+     * @param AdRepository     $adRepository Ad repository
+     * @param PaginatorInterface $paginator      Paginator
      */
     public function __construct(AdRepository $adRepository, PaginatorInterface $paginator)
     {
@@ -51,4 +52,25 @@ class AdService implements AdServiceInterface
             AdRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
+    /**
+     * Save entity.
+     *
+     * @param Ad $ad ad entity
+     */
+    public function save(Ad $ad): void
+    {
+        $this->adRepository->save($ad);
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Ad $ad Ad entity
+     */
+    public function delete(Ad $ad): void
+    {
+        $this->adRepository->delete($ad);
+    }
+
 }

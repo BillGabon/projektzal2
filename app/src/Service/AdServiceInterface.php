@@ -5,6 +5,7 @@
 
 namespace App\Service;
 
+use App\Entity\Ad;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -21,4 +22,17 @@ interface AdServiceInterface
      */
     public function getPaginatedList(int $page): PaginationInterface;
 
+    /**
+     * Save entity.
+     *
+     * @param Ad $ad ad entity
+     */
+    public function save(Ad $ad): void;
+
+    /**
+     * Delete entity.
+     *
+     * @param Ad $ad ad entity
+     */
+    public function delete(Ad $ad): void;
 }

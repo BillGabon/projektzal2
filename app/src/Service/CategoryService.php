@@ -6,7 +6,10 @@
 namespace App\Service;
 
 use App\Entity\Category;
+use App\Repository\AdRepository;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -20,6 +23,7 @@ class CategoryService implements CategoryServiceInterface
      */
     private CategoryRepository $categoryRepository;
 
+    private AdRepository $adRepository;
     /**
      * Paginator.
      */
@@ -31,10 +35,11 @@ class CategoryService implements CategoryServiceInterface
      * @param CategoryRepository  $categoryRepository Category repository
      * @param PaginatorInterface $paginator          Paginator
      */
-    public function __construct(CategoryRepository $categoryRepository, PaginatorInterface $paginator)
+    public function __construct(CategoryRepository $categoryRepository, PaginatorInterface $paginator, AdRepository $adRepository)
     {
         $this->categoryRepository = $categoryRepository;
         $this->paginator = $paginator;
+        $this->adRepository = $adRepository;
     }
 
     /**
@@ -71,7 +76,23 @@ class CategoryService implements CategoryServiceInterface
     {
         $this->categoryRepository->delete($category);
     }
+    /**
+     * Can Category be deleted?
+     *
+     * @param Category $category Category entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Category $category): bool
+    {
+        try {
+            $result = $this->adRepository->countByCategory($category);
 
+            return !($result > 0);
+        } catch (NoResultException|NonUniqueResultException) {
+            return false;
+        }
+    }
     /**
      * Get category by ID.
      *
@@ -83,4 +104,5 @@ class CategoryService implements CategoryServiceInterface
     {
         return $this->categoryRepository->find($id);
     }
+
 }

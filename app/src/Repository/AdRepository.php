@@ -1,58 +1,49 @@
 <?php
 /**
- * Repository for Ad
+ * Ad repository.
  */
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Ad;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\Category;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Ad>
+ * Class AdRepository.
  *
  * @method Ad|null find($id, $lockMode = null, $lockVersion = null)
  * @method Ad|null findOneBy(array $criteria, array $orderBy = null)
  * @method Ad[]    findAll()
  * @method Ad[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<Ad>
  */
 class AdRepository extends ServiceEntityRepository
 {
+    /**
+     * Items per page.
+     *
+     * Use constants to define configuration options that rarely change instead
+     * of specifying them in configuration files.
+     * See https://symfony.com/doc/current/best_practices.html#configuration
+     *
+     * @constant int
+     */
+    public const PAGINATOR_ITEMS_PER_PAGE = 3;
 
-    public const PAGINATOR_ITEMS_PER_PAGE = 10;
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Ad::class);
-    }
-
-    public function save(Ad $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(Ad $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function findAdsByCategory(Category $category): array
-    {
-        return $this->createQueryBuilder('ad')
-            ->andWhere('ad.category = :category')
-            ->setParameter('category', $category)
-            ->getQuery()
-            ->getResult();
     }
 
     /**
@@ -72,6 +63,62 @@ class AdRepository extends ServiceEntityRepository
     }
 
     /**
+     * Count ads by category.
+     *
+     * @param Category $category Category
+     *
+     * @return int Number of ads in category
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByCategory(Category $category): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('ad.id'))
+            ->where('ad.category = :category')
+            ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    /**
+     * Save entity.
+     *
+     * @param Ad $ad ad entity
+     */
+    public function save(ad $ad): void
+    {
+        $this->_em->persist($ad);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Ad $ad ad entity
+     */
+    public function delete(Ad $ad): void
+    {
+        $this->_em->remove($ad);
+        $this->_em->flush();
+    }
+    /**
+     * Find ads by category.
+     *
+     * @param Category $category Category
+     *
+     * @return Ad[] Ads in category
+     */
+    public function findByCategory(Category $category): array
+    {
+        return $this->createQueryBuilder('ad')
+            ->where('ad.category = :category')
+            ->setParameter('category', $category)
+            ->getQuery()
+            ->getResult();
+    }
+    /**
      * Get or create new query builder.
      *
      * @param QueryBuilder|null $queryBuilder Query builder
@@ -82,30 +129,4 @@ class AdRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('ad');
     }
-
-
-//    /**
-//     * @return Ad[] Returns an array of Ad objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Ad
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

@@ -43,6 +43,15 @@ class AdFixtures extends AbstractBaseFixtures implements DependentFixtureInterfa
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
+            $ad->setApproved(
+                $this->faker->boolean()
+            );
+            $ad->setContent(
+                $this->faker->text(100)
+            );
+            $ad->setEmail(
+                $this->faker->email()
+            );
             /** @var Category $category */
             $category = $this->getRandomReference('categories');
             $ad->setCategory($category);
