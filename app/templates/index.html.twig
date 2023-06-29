@@ -7,6 +7,9 @@
 {% block body %}
     {% include 'nav.html.twig' %}
     <h1>{{ 'title.ad_list'|trans }}</h1>
+    <a href="{{ path('ad_create') }}" class="btn btn-success" title="{{ 'name.ad_create'|trans }}">
+        {{ 'name.ad_create'|trans }}
+    </a>
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
@@ -25,23 +28,37 @@
             </thead>
             <tbody>
             {% for ad in pagination.items %}
+            {% if is_granted('ROLE_ADMIN') or ad.approved %}
                 <tr>
                     <td>{{ ad.createdAt|date('m/d/Y') }}</td>
                     <td>{{ ad.updatedAt|date('m/d/Y') }}</td>
                     <td>{{ ad.title }}</td>
-                    <td>{{ ad.category.name }}</td>
+                    <td><a href="{{ url('ad_index', {'filters.category_id' : ad.category.id}) }}" title="{{ ad.category.name }}">
+                            {{ ad.category.name }}
+                        </a>
+                    </td>
                     <td>
                         <a href="{{ url('ad_show', {id: ad.id}) }}" class="btn btn-primary" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
-                        <a href="{{ path('ad_edit', {id: ad.id}) }}" class="btn btn-primary" title="{{ 'action.edit'|trans }}">
-                            {{ 'action.edit'|trans }}
-                        </a>
-                        <a href="{{ path('ad_delete', {id: ad.id}) }}" class="btn btn-danger" title="{{ 'action.delete'|trans }}">
-                            {{ 'action.delete'|trans }}
-                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('ad_edit', {id: ad.id}) }}" class="btn btn-primary" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                            <a href="{{ path('ad_delete', {id: ad.id}) }}" class="btn btn-danger" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('ad_approve', {id: ad.id}) }}" class="btn btn-primary" title="{{ 'action.approve'|trans }}">
+                                    {{ ad.approved ? 'action.disapprove'|trans : 'action.approve'|trans }}
+                                </a>
+                            {% endif %}
+
+
+                        {% endif %}
                     </td>
                 </tr>
+            {% endif %}
             {% endfor %}
             </tbody>
         </table>

@@ -1,22 +1,21 @@
 <?php
 /**
- * User type.
+ * Change password type.
  */
 
 namespace Form\Type;
 
-use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 /**
  * Class UserType.
  */
-class UserType extends AbstractType
+class ChangePasswordType extends AbstractType
 {
-
     /**
      * Builds the form.
      *
@@ -31,23 +30,21 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
-            'email',
-            TextType::class,
-            [
-                'label' => 'label.email',
-                'required' => true,
-                'attr' => ['max_length' => 255],
-            ]
-        );
-        $builder->add(
             'password',
-            TextType::class,
+            PasswordType::class,
             [
-                'label' => 'label.tags',
-                'required' => false,
-                'attr' => ['max_length' => 128],
+                'label' => 'label.currentPassword',
+                'required' => true,
+                'constraints' => [
+                    new UserPassword([
+                        'message' => 'message.invalid_password',
+                    ]), ],
             ]
-        );
+        )
+            ->add('newPassword', PasswordType::class, [
+                'label' => 'label.newPassword',
+                'required' => true,
+            ]);
     }
 
     /**
@@ -57,7 +54,7 @@ class UserType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => User::class]);
+        $resolver->setDefaults(['data_class' => null]);
     }
 
     /**

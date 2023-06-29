@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Ad;
 use App\Repository\AdRepository;
+use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -16,9 +17,9 @@ use Knp\Component\Pager\PaginatorInterface;
 class AdService implements AdServiceInterface
 {
     /**
-     * Ad repository.
+     * Category service.
      */
-    private AdRepository $adRepository;
+    private CategoryServiceInterface $categoryService;
 
     /**
      * Paginator.
@@ -26,31 +27,64 @@ class AdService implements AdServiceInterface
     private PaginatorInterface $paginator;
 
     /**
+     * Ad repository.
+     */
+    private AdRepository $adRepository;
+
+    /**
      * Constructor.
      *
-     * @param AdRepository     $adRepository Ad repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param CategoryServiceInterface $categoryService Category service
+     * @param PaginatorInterface       $paginator       Paginator
+     * @param AdRepository             $adRepository    Ad repository
      */
-    public function __construct(AdRepository $adRepository, PaginatorInterface $paginator)
-    {
-        $this->adRepository = $adRepository;
+    public function __construct(
+        CategoryServiceInterface $categoryService,
+        PaginatorInterface $paginator,
+        AdRepository $adRepository
+    ) {
+        $this->categoryService = $categoryService;
         $this->paginator = $paginator;
+        $this->adRepository = $adRepository;
     }
 
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int                $page    Page number
+     * @param array<string, int> $filters Filters array
      *
-     * @return PaginationInterface<string, mixed> Paginated list
+     * @return PaginationInterface<SlidingPagination> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, array $filters = []): PaginationInterface
     {
+        $filters = $this->prepareFilters($filters);
+
         return $this->paginator->paginate(
-            $this->adRepository->queryAll(),
+            $this->adRepository->queryAll($filters),
             $page,
             AdRepository::PAGINATOR_ITEMS_PER_PAGE
         );
+    }
+
+    /**
+     * Prepare filters for the tasks list.
+     *
+     * @param array<string, int> $filters Raw filters from request
+     *
+     * @return array<string, object> Result array of filters
+     */
+    private function prepareFilters(array $filters): array
+    {
+        $resultFilters = [];
+        if (!empty($filters['category_id'])) {
+            $category = $this->categoryService->findOneById($filters['category_id']);
+            if (null !== $category) {
+                $resultFilters['category'] = $category;
+            }
+        }
+
+        return $resultFilters;
     }
 
     /**
@@ -72,5 +106,4 @@ class AdService implements AdServiceInterface
     {
         $this->adRepository->delete($ad);
     }
-
 }

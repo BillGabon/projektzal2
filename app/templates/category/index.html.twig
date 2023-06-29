@@ -7,8 +7,12 @@
 {% block body %}
     {% include 'nav.html.twig' %}
     <h1>{{ 'title.category_list'|trans }}</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('category_create') }}" class="btn btn-success" title="{{ 'name.category_create'|trans }}">
+        {{ 'name.category_create'|trans }}
+    </a>
+    {% endif %}
     {% if pagination is defined and pagination.items|length %}
-
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
@@ -16,7 +20,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ 'label.name'|trans }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'category.name') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -25,15 +29,17 @@
                 <tr>
                     <td>{{ category.name }}</td>
                     <td>
-                        <a href="{{ path('category_show', {id: category.id}) }}" class="btn btn-primary" title="{{ 'action.view'|trans }}">
+                        <a href="{{ url('ad_index', {'filters.category_id' : category.id}) }}" class="btn btn-primary" title="{{ 'action.view'|trans }}">
                             {{ 'action.view'|trans }}
                         </a>
-                        <a href="{{ path('category_edit', {id: category.id}) }}" class="btn btn-primary" title="{{ 'action.edit'|trans }}">
-                            {{ 'action.edit'|trans }}
-                        </a>
-                        <a href="{{ path('category_delete', {id: category.id}) }}" class="btn btn-danger" title="{{ 'action.delete'|trans }}">
-                            {{ 'action.delete'|trans }}
-                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('category_edit', {id: category.id}) }}" class="btn btn-primary" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                            <a href="{{ path('category_delete', {id: category.id}) }}" class="btn btn-danger" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
@@ -43,7 +49,6 @@
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}
         </div>
-
     {% else %}
         <p>
             {{ 'message.empty_category_list'|trans }}

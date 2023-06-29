@@ -21,12 +21,14 @@ interface CategoryServiceInterface
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page): PaginationInterface;
+
     /**
      * Save entity.
      *
      * @param Category $category Category entity
      */
     public function save(Category $category): void;
+
     /**
      * Get category by ID.
      *
@@ -51,4 +53,9 @@ interface CategoryServiceInterface
      * @return bool Result
      */
     public function canBeDeleted(Category $category): bool;
+
+    /**
+     * Finds one element using ID.
+     */
+    public function findOneById(int $id): ?Category;
 }

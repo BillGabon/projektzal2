@@ -22,7 +22,9 @@ class CategoryService implements CategoryServiceInterface
      * Category repository.
      */
     private CategoryRepository $categoryRepository;
-
+    /**
+     * Ad repository.
+     */
     private AdRepository $adRepository;
     /**
      * Paginator.
@@ -32,8 +34,9 @@ class CategoryService implements CategoryServiceInterface
     /**
      * Constructor.
      *
-     * @param CategoryRepository  $categoryRepository Category repository
+     * @param CategoryRepository $categoryRepository Category repository
      * @param PaginatorInterface $paginator          Paginator
+     * @param AdRepository       $adRepository       Ad Repository
      */
     public function __construct(CategoryRepository $categoryRepository, PaginatorInterface $paginator, AdRepository $adRepository)
     {
@@ -57,6 +60,7 @@ class CategoryService implements CategoryServiceInterface
             10
         );
     }
+
     /**
      * Save entity.
      *
@@ -64,9 +68,9 @@ class CategoryService implements CategoryServiceInterface
      */
     public function save(Category $category): void
     {
-
         $this->categoryRepository->save($category);
     }
+
     /**
      * Delete entity.
      *
@@ -76,6 +80,7 @@ class CategoryService implements CategoryServiceInterface
     {
         $this->categoryRepository->delete($category);
     }
+
     /**
      * Can Category be deleted?
      *
@@ -93,6 +98,7 @@ class CategoryService implements CategoryServiceInterface
             return false;
         }
     }
+
     /**
      * Get category by ID.
      *
@@ -105,4 +111,17 @@ class CategoryService implements CategoryServiceInterface
         return $this->categoryRepository->find($id);
     }
 
+    /**
+     * Find by id.
+     *
+     * @param int $id Category id
+     *
+     * @return Category|null Category entity
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?Category
+    {
+        return $this->categoryRepository->findOneById($id);
+    }
 }

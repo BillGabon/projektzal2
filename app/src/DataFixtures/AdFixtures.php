@@ -6,10 +6,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use App\Entity\Enum\AdStatus;
 use App\Entity\Ad;
-use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
@@ -34,12 +31,12 @@ class AdFixtures extends AbstractBaseFixtures implements DependentFixtureInterfa
             $ad = new Ad();
             $ad->setTitle($this->faker->sentence);
             $ad->setCreatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
             $ad->setUpdatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );

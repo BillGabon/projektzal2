@@ -45,6 +45,7 @@ security:
         - { path: ^/ad, roles: PUBLIC_ACCESS}
         - { path: ^/ad_show, roles: PUBLIC_ACCESS}
         - { path: ^/, roles: PUBLIC_ACCESS}
+        - { path: ^/change_password, roles: ROLE_ADMIN}
 
 when@test:
     security:

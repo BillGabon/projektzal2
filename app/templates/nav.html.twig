@@ -1,7 +1,14 @@
- <nav>
+<nav>
+    {% if app.user %}
+        <p>{{ 'title.welcome'|trans }}, {{ app.user.username }} | <a href="{{ path('app_logout') }}">{{ 'title.logout'|trans }}</a></p>
+    {% else %}
+        <p><a href="{{ path('app_login') }}">{{ 'title.login'|trans }}</a></p>
+    {% endif %}
+    <p><a href="{{ path('ad_index') }}">{{ 'title.ads'|trans }}</a>
+    <a href="{{ path('category_index') }}">{{ 'title.categories'|trans }}</a>
         {% if app.user %}
-            <p>{{ 'title.welcome'|trans }}, {{ app.user.username }} | <a href="{{ path('app_logout') }}">{{ 'title.logout'|trans }}</a></p>
-        {% else %}
-            <p><a href="{{ path('app_login') }}">{{ 'title.login'|trans }}</a></p>
-        {% endif %}
- </nav>
+    <a href="{{ path('change_password') }}">{{ 'title.change_password'|trans }}</a>
+    <a href="{{ path('change_email') }}">{{ 'title.change_email'|trans }}</a>
+    {% endif %}
+    </p>
+</nav>

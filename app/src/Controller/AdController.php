@@ -8,6 +8,8 @@ namespace App\Controller;
 use App\Entity\Ad;
 use App\Form\Type\AdType;
 use App\Service\AdServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,13 +36,17 @@ class AdController extends AbstractController
     /**
      * Constructor.
      *
-     * @param AdServiceInterface $adService  Ad service
-     * @param TranslatorInterface  $translator  Translator
+     * @param AdServiceInterface     $adService     Ad service
+     * @param TranslatorInterface    $translator    Translator
+     * @param EntityManagerInterface $entityManager Entity Manager
      */
-    public function __construct(AdServiceInterface $adService, TranslatorInterface $translator)
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(AdServiceInterface $adService, TranslatorInterface $translator, EntityManagerInterface $entityManager)
     {
         $this->adService = $adService;
         $this->translator = $translator;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -50,15 +56,21 @@ class AdController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(name: 'ad_index', methods: 'GET')]
+    #[Route(
+        name: 'ad_index',
+        methods: 'GET'
+    )]
     public function index(Request $request): Response
     {
+        $filters = $this->getFilters($request);
         $pagination = $this->adService->getPaginatedList(
-            $request->query->getInt('page', 1)
+            $request->query->getInt('page', 1),
+            $filters
         );
 
         return $this->render('index.html.twig', ['pagination' => $pagination]);
     }
+// ...
 
     /**
      * Show action.
@@ -80,7 +92,7 @@ class AdController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'ad_create', methods: 'GET|POST', )]
+    #[Route('/create', name: 'ad_create', methods: 'GET|POST')]
     public function create(Request $request): Response
     {
         $ad = new Ad();
@@ -102,18 +114,19 @@ class AdController extends AbstractController
             return $this->redirectToRoute('ad_index');
         }
 
-        return $this->render('ad/create.html.twig',  ['form' => $form->createView()]);
+        return $this->render('ad/create.html.twig', ['form' => $form->createView()]);
     }
 
     /**
      * Edit action.
      *
      * @param Request $request HTTP request
-     * @param Ad    $ad    Ad entity
+     * @param Ad      $ad      Ad entity
      *
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'ad_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Ad $ad): Response
     {
         $form = $this->createForm(
@@ -150,11 +163,12 @@ class AdController extends AbstractController
      * Delete action.
      *
      * @param Request $request HTTP request
-     * @param Ad    $ad    Ad entity
+     * @param Ad      $ad      Ad entity
      *
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'ad_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Ad $ad): Response
     {
         $form = $this->createForm(
@@ -185,5 +199,42 @@ class AdController extends AbstractController
                 'ad' => $ad,
             ]
         );
+    }
+
+    /**
+     * Change approval status of Ad.
+     *
+     * @param Ad $ad
+     *               Ad being approved
+     */
+    #[Route('/{id}/approve', name: 'ad_approve', methods: 'GET')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function approve(Ad $ad): Response
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('message.accessDenied');
+        }
+        $this->addFlash('success', $this->translator->trans('message.ad.changedApprovalStatus'));
+        $ad->setApproved(!$ad->isApproved());
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('ad_index');
+    }
+
+    /**
+     * Get filters from request.
+     *
+     * @param Request $request HTTP request
+     *
+     * @return array<string, int> Array of filters
+     *
+     * @psalm-return array{category_id: int, status_id: int}
+     */
+    private function getFilters(Request $request): array
+    {
+        $filters = [];
+        $filters['category_id'] = $request->query->getInt('filters_category_id');
+
+        return $filters;
     }
 }

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Licence Block.
+ */
 
 namespace App\Entity;
 
@@ -8,6 +11,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Entity for Category.
+ */
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: 'categories')]
 #[UniqueEntity(fields: ['name'])]
@@ -24,10 +30,8 @@ class Category
     #[Assert\Length(min: 3, max: 64)]
     private ?string $name = null;
 
-
     /**
      * Slug.
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
     #[Assert\Type('string')]
@@ -35,16 +39,27 @@ class Category
     #[Gedmo\Slug(fields: ['name'])]
     private ?string $slug = null;
 
+    /**
+     * Getter for ID.
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Getter for name.
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * Setter for name.
+     *
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -52,11 +67,19 @@ class Category
         return $this;
     }
 
+    /**
+     * Getter for slug.
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * Setter for Slug.
+     *
+     * @return $this
+     */
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
