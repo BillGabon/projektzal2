@@ -26,8 +26,8 @@
             <tbody>
             {% for ad in pagination.items %}
                 <tr>
-                    <td>{{ ad.createdAt|date('m/d/Y') }}</td>
-                    <td>{{ ad.updatedAt|date('m/d/Y') }}</td>
+                    <td>{{ ad.createdAt|date('d/m/Y') }}</td>
+                    <td>{{ ad.updatedAt|date('d/m/Y') }}</td>
                     <td>{{ ad.title }}</td>
                     <td>{{ ad.category.name }}</td>
                     <td>

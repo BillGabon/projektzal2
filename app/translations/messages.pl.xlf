@@ -2,7 +2,25 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="file.ext">
     <body>
+                       <trans-unit id="message.invalid_password">
+                                 <source>message.invalid_password</source>
+                                 <target>Nieprawidłowe hasło</target>
+                               </trans-unit>
 
+               <trans-unit id="label.currentPassword">
+                       <source>label.currentPassword</source>
+                       <target>Aktualne Hasło</target>
+                     </trans-unit>
+
+                     <trans-unit id="label.newEmail">
+                       <source>label.newEmail</source>
+                       <target>Nowy Email</target>
+                     </trans-unit>
+
+                     <trans-unit id="label.newPassword">
+                       <source>label.newPassword</source>
+                       <target>Nowe Hasło</target>
+                     </trans-unit>
 
         <trans-unit id="message.email_edited_successfully">
                 <source>message.email_edited_successfully</source>
@@ -237,7 +255,7 @@
 
       <trans-unit id="action.disapprove">
         <source>action.disapprove</source>
-        <target>Odrzuć</target>
+        <target>Wycofaj</target>
       </trans-unit>
 
     </body>
