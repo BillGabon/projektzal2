@@ -30,8 +30,8 @@
             {% for ad in pagination.items %}
             {% if is_granted('ROLE_ADMIN') or ad.approved %}
                 <tr>
-                    <td>{{ ad.createdAt|date('m/d/Y') }}</td>
-                    <td>{{ ad.updatedAt|date('m/d/Y') }}</td>
+                    <td>{{ ad.createdAt|date('d.m.Y') }}</td>
+                    <td>{{ ad.updatedAt|date('d.m.Y') }}</td>
                     <td>{{ ad.title }}</td>
                     <td><a href="{{ url('ad_index', {'filters.category_id' : ad.category.id}) }}" title="{{ ad.category.name }}">
                             {{ ad.category.name }}

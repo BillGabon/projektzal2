@@ -1,4 +1,7 @@
 <?php
+/**
+ * License block.
+ */
 
 namespace App\Repository;
 
@@ -9,7 +12,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
-/**
+/** User Repository.
  * @extends ServiceEntityRepository<User>
  *
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,14 +22,18 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    /**
-     * Constructor.
+    /** Constructor.
+     * @param ManagerRegistry $registry Manager Registry
      */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
 
+    /** Save function for user.
+     * @param User $entity user entity to save
+     * @param bool $flush  whether to flush afterward
+     */
     public function save(User $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -36,6 +43,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
+    /** Remove user.
+     * @param User $entity user to remove
+     * @param bool $flush  whether to flush afterward
+     */
     public function remove(User $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -45,8 +56,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
+    /** Rehash password over time.
+     * @param PasswordAuthenticatedUserInterface $user              user
+     * @param string                             $newHashedPassword rehashed password
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {

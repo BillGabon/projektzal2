@@ -14,7 +14,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Class AdRepository.
+ * Ad Repository.
  *
  * @method Ad|null find($id, $lockMode = null, $lockVersion = null)
  * @method Ad|null findOneBy(array $criteria, array $orderBy = null)

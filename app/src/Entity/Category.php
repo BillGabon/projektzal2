@@ -39,24 +39,27 @@ class Category
     #[Gedmo\Slug(fields: ['name'])]
     private ?string $slug = null;
 
-    /**
-     * Getter for ID.
+    /** Getter for ID.
+     *
+     * @return int|null ID
      */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Getter for name.
+    /** Getter for name.
+     *
+     * @return string|null name
      */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * Setter for name.
+    /** Setter for name.
+     *
+     * @param string $name name
      *
      * @return $this
      */
@@ -67,16 +70,16 @@ class Category
         return $this;
     }
 
-    /**
-     * Getter for slug.
+    /** Getter for Slug.
+     * @return string|null slug
      */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    /**
-     * Setter for Slug.
+    /** Setter for Slug.
+     * @param string $slug slug
      *
      * @return $this
      */

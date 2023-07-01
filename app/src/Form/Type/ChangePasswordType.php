@@ -3,7 +3,7 @@
  * Change password type.
  */
 
-namespace Form\Type;
+namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
 /**
- * Class UserType.
+ * Class ChangePasswordType.
  */
 class ChangePasswordType extends AbstractType
 {
@@ -37,7 +37,6 @@ class ChangePasswordType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new UserPassword([
-                        'message' => 'message.invalid_password',
                     ]), ],
             ]
         )

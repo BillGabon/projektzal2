@@ -41,7 +41,7 @@ class AdFixtures extends AbstractBaseFixtures implements DependentFixtureInterfa
                 )
             );
             $ad->setApproved(
-                $this->faker->boolean()
+                true
             );
             $ad->setContent(
                 $this->faker->text(100)

@@ -53,24 +53,24 @@ class Ad
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $email = null;
 
-    /**
-     * Getter for id.
+    /** Getter for ID.
+     * @return int|null ID
      */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Getter for createdAt.
+    /** Getter for createdAt.
+     * @return \DateTimeInterface|null when was the ad created
      */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    /**
-     * setter for createdAt.
+    /** Setter for createdAt.
+     * @param \DateTimeInterface $createdAt new creation date
      *
      * @return $this
      */
@@ -81,16 +81,16 @@ class Ad
         return $this;
     }
 
-    /**
-     * Getter for updatedAt.
+    /** Getter for updated at.
+     * @return \DateTimeInterface|null whether and when was the record last updated
      */
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    /**
-     * Setter for updatedAt.
+    /** Setter for updatedAt.
+     * @param \DateTimeInterface $updatedAt last update time
      *
      * @return $this
      */
@@ -101,8 +101,8 @@ class Ad
         return $this;
     }
 
-    /**
-     * Getter for title.
+    /** Getter for Title.
+     * @return string|null title
      */
     public function getTitle(): ?string
     {
@@ -111,6 +111,8 @@ class Ad
 
     /**
      * Setter for title.
+     *
+     * @param string $title new title
      *
      * @return $this
      */
@@ -121,16 +123,16 @@ class Ad
         return $this;
     }
 
-    /**
-     * Getter for category.
+    /** Getter for category.
+     * @return Category|null category of this ad
      */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    /**
-     * setter for Category.
+    /** Setter for category.
+     * @param Category|null $category category
      *
      * @return $this
      */
@@ -142,15 +144,15 @@ class Ad
     }
 
     /**
-     * getter for Approved.
+     * @return bool|null whether it is approved
      */
     public function isApproved(): ?bool
     {
         return $this->approved;
     }
 
-    /**
-     * setter for approved.
+    /** Setter for Approved.
+     * @param bool $approved whether ad is approved
      *
      * @return $this
      */
@@ -161,16 +163,16 @@ class Ad
         return $this;
     }
 
-    /**
-     * Getter for content.
+    /** Getter for Content.
+     * @return string|null content of the ad
      */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
-    /**
-     * Setter for content.
+    /** Setter for Content.
+     * @param string|null $content new content
      *
      * @return $this
      */
@@ -181,16 +183,16 @@ class Ad
         return $this;
     }
 
-    /**
-     * Getter for email.
+    /** Getter for Email.
+     * @return string|null email
      */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * Setter for email.
+    /** Setter for Email.
+     * @param string|null $email email
      *
      * @return $this
      */

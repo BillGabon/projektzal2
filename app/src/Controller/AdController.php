@@ -32,6 +32,10 @@ class AdController extends AbstractController
      * Translator.
      */
     private TranslatorInterface $translator;
+    /**
+     * Entity Manager.
+     */
+    private EntityManagerInterface $entityManager;
 
     /**
      * Constructor.
@@ -40,8 +44,6 @@ class AdController extends AbstractController
      * @param TranslatorInterface    $translator    Translator
      * @param EntityManagerInterface $entityManager Entity Manager
      */
-    private EntityManagerInterface $entityManager;
-
     public function __construct(AdServiceInterface $adService, TranslatorInterface $translator, EntityManagerInterface $entityManager)
     {
         $this->adService = $adService;
@@ -206,6 +208,8 @@ class AdController extends AbstractController
      *
      * @param Ad $ad
      *               Ad being approved
+     *
+     * @return Response response
      */
     #[Route('/{id}/approve', name: 'ad_approve', methods: 'GET')]
     #[IsGranted('ROLE_ADMIN')]

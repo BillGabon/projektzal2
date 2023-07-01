@@ -6,8 +6,8 @@
 namespace App\Controller;
 
 use App\Service\UserServiceInterface;
-use Form\Type\ChangeEmailType;
-use Form\Type\ChangePasswordType;
+use App\Form\Type\ChangeEmailType;
+use App\Form\Type\ChangePasswordType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,10 +27,9 @@ class UserController extends AbstractController
 
     private UserServiceInterface $userService;
 
-    /**
-     * @param TranslatorInterface $translator
-     *
-     * @param UserServiceInterface $userService
+    /** Constructor.
+     * @param TranslatorInterface  $translator  translator
+     * @param UserServiceInterface $userService User Service
      */
     public function __construct(TranslatorInterface $translator, UserServiceInterface $userService)
     {
@@ -38,12 +37,10 @@ class UserController extends AbstractController
         $this->userService = $userService;
     }
 
-    /**
-     * Edit password route
+    /** Change Password route.
+     * @param Request $request HTTP request
      *
-     * @param Request $request
-     *
-     * @return Response
+     * @return Response response
      */
     #[Route('/change_password', name: 'change_password', methods: 'GET|POST')]
     #[IsGranted('ROLE_USER')]
@@ -79,12 +76,11 @@ class UserController extends AbstractController
             ]
         );
     }
-    /**
-     * Edit email route
+
+    /** Change email route.
+     * @param Request $request HTTP Request
      *
-     * @param Request $request
-     *
-     * @return Response
+     * @return Response response
      */
     #[Route('/change_email', name: 'change_email', methods: 'GET|POST')]
     #[IsGranted('ROLE_USER')]
