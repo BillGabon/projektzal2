@@ -38,11 +38,8 @@ class AdService implements AdServiceInterface
      * @param PaginatorInterface       $paginator       Paginator
      * @param AdRepository             $adRepository    Ad repository
      */
-    public function __construct(
-        CategoryServiceInterface $categoryService,
-        PaginatorInterface $paginator,
-        AdRepository $adRepository
-    ) {
+    public function __construct(CategoryServiceInterface $categoryService, PaginatorInterface $paginator, AdRepository $adRepository)
+    {
         $this->categoryService = $categoryService;
         $this->paginator = $paginator;
         $this->adRepository = $adRepository;
@@ -68,26 +65,6 @@ class AdService implements AdServiceInterface
     }
 
     /**
-     * Prepare filters for the tasks list.
-     *
-     * @param array<string, int> $filters Raw filters from request
-     *
-     * @return array<string, object> Result array of filters
-     */
-    private function prepareFilters(array $filters): array
-    {
-        $resultFilters = [];
-        if (!empty($filters['category_id'])) {
-            $category = $this->categoryService->findOneById($filters['category_id']);
-            if (null !== $category) {
-                $resultFilters['category'] = $category;
-            }
-        }
-
-        return $resultFilters;
-    }
-
-    /**
      * Save entity.
      *
      * @param Ad $ad ad entity
@@ -105,5 +82,25 @@ class AdService implements AdServiceInterface
     public function delete(Ad $ad): void
     {
         $this->adRepository->delete($ad);
+    }
+
+    /**
+     * Prepare filters for the tasks list.
+     *
+     * @param array<string, int> $filters Raw filters from request
+     *
+     * @return array<string, object> Result array of filters
+     */
+    private function prepareFilters(array $filters): array
+    {
+        $resultFilters = [];
+        if (!empty($filters['category_id'])) {
+            $category = $this->categoryService->findOneById($filters['category_id']);
+            if (null !== $category) {
+                $resultFilters['category'] = $category;
+            }
+        }
+
+        return $resultFilters;
     }
 }

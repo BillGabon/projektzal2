@@ -16,16 +16,17 @@ class UserService implements UserServiceInterface
 {
     private EntityManagerInterface $entityManager;
 
-    /**
-     * Constructor.
+    /** Constructor.
+     * @param EntityManagerInterface $entityManager Entity manager
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * Change password function.
+    /** Change password.
+     * @param User   $user        user
+     * @param string $newPassword new Password
      */
     public function changePassword(User $user, string $newPassword): void
     {
@@ -36,8 +37,9 @@ class UserService implements UserServiceInterface
         $this->entityManager->flush();
     }
 
-    /**
-     * Change email function.
+    /** Change Email function.
+     * @param User   $user     user
+     * @param string $newEmail new Email
      */
     public function changeEmail(User $user, string $newEmail): void
     {

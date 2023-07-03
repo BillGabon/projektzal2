@@ -12,13 +12,15 @@ use App\Entity\User;
  */
 interface UserServiceInterface
 {
-    /**
-     * change password function.
+    /** Change password.
+     * @param User   $user        user
+     * @param string $newPassword new Password
      */
     public function changePassword(User $user, string $newPassword): void;
 
-    /**
-     * change email function.
+    /** Change Email function.
+     * @param User   $user     user
+     * @param string $newEmail new Email
      */
     public function changeEmail(User $user, string $newEmail): void;
 }

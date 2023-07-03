@@ -54,8 +54,11 @@ interface CategoryServiceInterface
      */
     public function canBeDeleted(Category $category): bool;
 
-    /**
-     * Finds one element using ID.
+    /** Find one element by ID.
+     *
+     * @param int $id ID of category
+     *
+     * @return Category|null category of given ID
      */
     public function findOneById(int $id): ?Category;
 }
