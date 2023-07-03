@@ -72,7 +72,7 @@ class AdController extends AbstractController
 
         return $this->render('index.html.twig', ['pagination' => $pagination]);
     }
-// ...
+    // ...
 
     /**
      * Show action.
